@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import listEndpoints from "express-list-endpoints";
+import productRouter from "./api/products/index.js";
+import { pgConnect, syncModels } from "./db.js";
 
 const server = express();
 const port = process.env.PORT || 3001;
@@ -8,9 +10,14 @@ const port = process.env.PORT || 3001;
 // MIDDLEWARES
 server.use(cors());
 server.use(express.json());
+
 // ENDPOINTS
+server.use("/products", productRouter);
 
 //ERROR HANDLERS
+
+await pgConnect();
+await syncModels();
 
 server.listen(port, () => {
   console.table(listEndpoints(server));
