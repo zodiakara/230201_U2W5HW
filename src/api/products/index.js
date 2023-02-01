@@ -20,16 +20,17 @@ productRouter.post("/", async (req, res, next) => {
 // it should be possible to filter products by categories
 productRouter.get("/", async (req, res, next) => {
   try {
-    //const query = {}
+    const query = {};
     // filter by name
-    //if (req.query.name) query.name = {[Op.ilike]: `${req.query.name}%`}
+    //if (req.query.name) query.name = { [Op.iLike]: `%${req.query.name}%` };
     // filter by PRICE RANGE
-    //if (req.query.price) query.price = {}
+    //if (req.query.price) query.price = { [Op.gte]: `${req.query.price}` };
     // filter by CATEGORY
-    //if (req.query.category) query.category = {}
+    if (req.query.category)
+      query.category = { [Op.eq]: `${req.query.category}` };
     const products = await ProductsModel.findAll({
-      // where: {...query},
-      attributes: ["name", "category", "price"],
+      where: { ...query },
+      attributes: ["name", "category", "price", "id"],
     });
     res.send(products);
   } catch (error) {
