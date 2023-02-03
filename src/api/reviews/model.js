@@ -1,6 +1,5 @@
 import sequelize from "../../db";
 import { DataTypes } from "sequelize";
-import CategoriesModel from "../categories/model";
 import UsersModel from "../users/model.js";
 
 const ReviewsModel = sequelize.define("review", {
@@ -17,7 +16,7 @@ const ReviewsModel = sequelize.define("review", {
 // 1 to many relationship with users model
 // options parameter in 1-1 1-many is optional. in many-many it is REQUIRED
 
-UsersModel.hasMany(CategoriesModel, { foreignKey: { allowNull: false } });
-CategoriesModel.belongsTo(UsersModel);
+UsersModel.hasMany(ReviewsModel, { foreignKey: { allowNull: false } });
+ReviewsModel.belongsTo(UsersModel);
 
-export default CategoriesModel;
+export default ReviewsModel;
