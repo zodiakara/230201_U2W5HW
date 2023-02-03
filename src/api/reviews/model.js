@@ -16,7 +16,9 @@ const ReviewsModel = sequelize.define("review", {
 // 1 to many relationship with users model
 // options parameter in 1-1 1-many is optional. in many-many it is REQUIRED
 
-UsersModel.hasMany(ReviewsModel, { foreignKey: { allowNull: false } });
+UsersModel.hasMany(ReviewsModel, {
+  foreignKey: { name: reviewId, allowNull: false },
+});
 ReviewsModel.belongsTo(UsersModel);
 
 export default ReviewsModel;
