@@ -19,7 +19,7 @@ reviewsRouter.post("/:userId/reviews", async (req, res, next) => {
   }
 });
 
-reviewsRouter.get("//:userId/reviews", async (req, res, next) => {
+reviewsRouter.get("/:userId/reviews", async (req, res, next) => {
   try {
     const reviews = await ReviewsModel.findAll({
       include: [{ model: UsersModel, attributes: ["name", "surname"] }],

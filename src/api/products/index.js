@@ -14,10 +14,7 @@ productRouter.post("/", async (req, res, next) => {
   }
 });
 
-// QUERY FILTERS:
-// It should be possible to filter products by name
-// it should be possible to filter products by price range
-// it should be possible to filter products by categories
+//get products should also display categories and reviews info!!
 productRouter.get("/", async (req, res, next) => {
   try {
     const query = {};

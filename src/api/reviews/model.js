@@ -1,6 +1,7 @@
-import sequelize from "../../db";
+import sequelize from "../../db.js";
 import { DataTypes } from "sequelize";
 import UsersModel from "../users/model.js";
+import ProductsModel from "../products/model.js";
 
 const ReviewsModel = sequelize.define("review", {
   reviewId: {
@@ -17,8 +18,15 @@ const ReviewsModel = sequelize.define("review", {
 // options parameter in 1-1 1-many is optional. in many-many it is REQUIRED
 
 UsersModel.hasMany(ReviewsModel, {
-  foreignKey: { name: reviewId, allowNull: false },
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
 });
-ReviewsModel.belongsTo(UsersModel);
+ReviewsModel.belongsTo(UsersModel, { onDelete: "CASCADE" });
+
+ProductsModel.hasMany(ReviewsModel, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
+ReviewsModel.belongsTo(ProductsModel, { onDelete: "CASCADE" });
 
 export default ReviewsModel;

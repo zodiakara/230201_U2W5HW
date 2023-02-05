@@ -33,6 +33,18 @@ usersRouter.get("/:userId", async (req, res, next) => {
 });
 usersRouter.put("/:userId", async (req, res, next) => {
   try {
+    const [numberOfUpdatedRows, updatedRecords] = await UsersModel.update(
+      req.body,
+      {
+        where: { id: req.params.userId },
+        returning: true,
+      }
+    );
+    if (numberOfUpdatedRows === 1) {
+      res.send(updatedRecords);
+    } else {
+      next(createHttpError(404, `USER WITH ID ${req.params.userId}NOT FOUND`));
+    }
   } catch (error) {
     next(error);
   }
