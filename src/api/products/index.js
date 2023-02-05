@@ -2,6 +2,8 @@ import express from "express";
 import ProductsModel from "./model.js";
 import { Op } from "sequelize";
 import createHttpError from "http-errors";
+import ReviewsModel from "../reviews/model.js";
+import UsersModel from "../users/model.js";
 
 const productRouter = express.Router();
 
@@ -17,17 +19,24 @@ productRouter.post("/", async (req, res, next) => {
 //get products should also display categories and reviews info!!
 productRouter.get("/", async (req, res, next) => {
   try {
-    const query = {};
+    // const query = {};
     // filter by name
     //if (req.query.name) query.name = { [Op.iLike]: `%${req.query.name}%` };
     // filter by PRICE RANGE
     //if (req.query.price) query.price = { [Op.gte]: `${req.query.price}` };
     // filter by CATEGORY
-    if (req.query.category)
-      query.category = { [Op.eq]: `${req.query.category}` };
+    // if (req.query.category)
+    //   query.category = { [Op.eq]: `${req.query.category}` };
     const products = await ProductsModel.findAll({
-      where: { ...query },
-      attributes: ["name", "category", "price", "id"],
+      // where: { ...query },
+      attributes: ["name", "price", "id"],
+      include: [
+        {
+          model: ReviewsModel,
+          include: [{ model: UsersModel }],
+          attributes: ["content"],
+        },
+      ],
     });
     res.send(products);
   } catch (error) {
@@ -38,6 +47,13 @@ productRouter.get("/:productId", async (req, res, next) => {
   try {
     const product = await ProductsModel.findByPk(req.params.productId, {
       attributes: { exclude: ["createdAt"] },
+      include: [
+        {
+          model: ReviewsModel,
+          include: [{ model: UsersModel }],
+          attributes: ["content"],
+        },
+      ],
     });
     if (product) {
       res.send(product);

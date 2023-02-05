@@ -36,7 +36,7 @@ usersRouter.put("/:userId", async (req, res, next) => {
     const [numberOfUpdatedRows, updatedRecords] = await UsersModel.update(
       req.body,
       {
-        where: { id: req.params.userId },
+        where: { userId: req.params.userId },
         returning: true,
       }
     );
@@ -52,7 +52,7 @@ usersRouter.put("/:userId", async (req, res, next) => {
 usersRouter.delete("/:userId", async (req, res, next) => {
   try {
     const numberOfDeletedRows = await UsersModel.destroy({
-      where: { id: req.params.userId },
+      where: { userId: req.params.userId },
     });
     if (numberOfDeletedRows === 1) {
       res.status(204).send();
