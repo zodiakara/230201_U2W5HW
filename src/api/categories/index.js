@@ -12,6 +12,17 @@ categoryRouter.post("/", async (req, res, next) => {
     next(error);
   }
 });
+
+//adding multiple files to the db with one take: method: bulkCreate
+categoryRouter.post("/bulk", async (req, res, next) => {
+  try {
+    const categories = await CategoriesModel.bulkCreate();
+    res.status(201).send(categories.map((c) => c.categoryId));
+  } catch (error) {
+    next(error);
+  }
+});
+
 categoryRouter.get("/", async (req, res, next) => {
   try {
     const categories = await CategoriesModel.findAll();
