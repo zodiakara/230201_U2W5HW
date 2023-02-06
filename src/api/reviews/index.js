@@ -25,7 +25,7 @@ reviewsRouter.get("/", async (req, res, next) => {
     const reviews = await ReviewsModel.findAll({
       include: [
         { model: UsersModel, attributes: ["name", "surname"] },
-        { model: ProductsModel, attributes: ["name", "price"] },
+        { model: ProductsModel, attributes: ["name", "price", "id"] },
       ],
     });
     res.send(reviews);

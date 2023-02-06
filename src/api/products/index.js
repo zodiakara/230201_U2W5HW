@@ -33,7 +33,7 @@ productRouter.get("/", async (req, res, next) => {
       include: [
         {
           model: ReviewsModel,
-          include: [{ model: UsersModel }],
+          include: [{ model: UsersModel, attributes: ["name", "surname"] }],
           attributes: ["content"],
         },
       ],
@@ -50,13 +50,14 @@ productRouter.get("/:productId", async (req, res, next) => {
       include: [
         {
           model: ReviewsModel,
-          include: [{ model: UsersModel }],
-          attributes: ["content"],
+          include: [{ model: UsersModel, attributes: ["name", "surname"] }],
+          attributes: ["content", "reviewId"],
         },
       ],
     });
     if (product) {
       res.send(product);
+      console.log(product.reviews);
     } else {
       next(
         createHttpError(
