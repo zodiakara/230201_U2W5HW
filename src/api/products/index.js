@@ -4,6 +4,7 @@ import { Op } from "sequelize";
 import createHttpError from "http-errors";
 import ReviewsModel from "../reviews/model.js";
 import UsersModel from "../users/model.js";
+import ProductsCategoriesModel from "../categories/productsCategoriesModel.js";
 
 const productRouter = express.Router();
 

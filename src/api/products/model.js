@@ -25,4 +25,6 @@ const ProductsModel = sequelize.define("product", {
   },
 });
 
+// many to many relationship:
+
 export default ProductsModel;

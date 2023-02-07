@@ -6,22 +6,22 @@ const categoryRouter = express.Router();
 
 categoryRouter.post("/", async (req, res, next) => {
   try {
-    const { id } = await CategoriesModel.create(req.body);
-    res.status(201).send({ id });
+    const { categoryId } = await CategoriesModel.create(req.body);
+    res.status(201).send({ categoryId });
   } catch (error) {
     next(error);
   }
 });
 
 //adding multiple files to the db with one take: method: bulkCreate
-categoryRouter.post("/bulk", async (req, res, next) => {
-  try {
-    const categories = await CategoriesModel.bulkCreate();
-    res.status(201).send(categories.map((c) => c.categoryId));
-  } catch (error) {
-    next(error);
-  }
-});
+// categoryRouter.post("/bulk", async (req, res, next) => {
+//   try {
+//     const categories = await CategoriesModel.bulkCreate();
+//     res.status(201).send(categories.map((c) => c.categoryId));
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 categoryRouter.get("/", async (req, res, next) => {
   try {

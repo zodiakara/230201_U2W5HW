@@ -6,14 +6,11 @@ import CategoriesModel from "./model.js";
 const ProductsCategoriesModel = sequelize.define("productCategory", {
   id: {
     type: DataTypes.UUID,
-    primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
   },
 });
 // the rest is added by sequelize through creation of m2m relationship
-
-export default ProductsCategoriesModel;
-// many to many relationship:
 
 ProductsModel.belongsToMany(CategoriesModel, {
   through: ProductsCategoriesModel,
@@ -23,3 +20,5 @@ CategoriesModel.belongsToMany(ProductsModel, {
   through: ProductsCategoriesModel,
   foreignKey: { name: "categoryId", allowNull: false },
 });
+
+export default ProductsCategoriesModel;
