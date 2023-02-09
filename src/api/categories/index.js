@@ -14,18 +14,25 @@ categoryRouter.post("/", async (req, res, next) => {
 });
 
 //adding multiple files to the db with one take: method: bulkCreate
-// categoryRouter.post("/bulk", async (req, res, next) => {
-//   try {
-//     const categories = await CategoriesModel.bulkCreate();
-//     res.status(201).send(categories.map((c) => c.categoryId));
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+categoryRouter.post("/bulk", async (req, res, next) => {
+  try {
+    const categories = await CategoriesModel.bulkCreate([
+      { name: "Computers" },
+      { name: "Phones" },
+      { name: "Books" },
+      { name: "Other" },
+    ]);
+    res.status(201).send(categories.map((c) => c.categoryId));
+  } catch (error) {
+    next(error);
+  }
+});
 
 categoryRouter.get("/", async (req, res, next) => {
   try {
-    const categories = await CategoriesModel.findAll();
+    const categories = await CategoriesModel.findAll({
+      attributes: { exclude: "createdAt, updatedAt" },
+    });
     res.send(categories);
   } catch (error) {
     next(error);
@@ -33,7 +40,9 @@ categoryRouter.get("/", async (req, res, next) => {
 });
 categoryRouter.get("/:categoryId", async (req, res, next) => {
   try {
-    const category = await CategoriesModel.findByPk(req.params.categoryId);
+    const category = await CategoriesModel.findByPk(req.params.categoryId, {
+      attributes: { exclude: "createdAt, updatedAt" },
+    });
     if (category) {
       res.send(category);
     } else {
